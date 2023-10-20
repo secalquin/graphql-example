@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../config/axiosIntance";
 
 export const typeDefs = `#graphql
   type Query {
@@ -19,14 +19,12 @@ export const typeDefs = `#graphql
 export const resolvers = {
   Query: {
     products: async () => {
-      const dataFetched = await axios.get("https://fakestoreapi.com/products");
+      const dataFetched = await axiosInstance.get("/products");
       return dataFetched.data;
     },
     product: async (_: any, { id }: any) => {
       try {
-        const response = await axios.get(
-          `https://fakestoreapi.com/products/${id}`
-        );
+        const response = await axiosInstance.get(`/products/${id}`);
         if (response.data) {
           return response.data;
         } else {
